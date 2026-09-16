@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
@@ -15,6 +17,13 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     private Animator animator;
 
+    private int coins;
+    public TMP_Text textCoins;
+
+    public AudioSource audioSource;
+
+    public AudioClip coinClip;
+    
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -49,10 +58,18 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.transform.CompareTag("Coin")){
+
+            audioSource.PlayOneShot(coinClip);
             Destroy(collision.gameObject);
+            coins++;
+            textCoins.text = coins.ToString();
         }
+
+        if(collision.transform.CompareTag("Spikes"))
+        {   
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }                                                       
+
     }
-
-
-
+    
 }
